@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Login</title>
+   <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+   <div class="basket">
+      <h1>Register</h1>
+      <form action="/register" method="POST">
+         <input class="user" type="text" name="ime" placeholder="Enter your name" required /><br /><br />
+         <input class="user" type="text" name="email" placeholder="Enter your email" required /><br /><br />
+         <input class="user" type="text" name="pass" placeholder="Create a password" required /><br /><br />
+         <input class="user" type="text" name="pass2" placeholder="Confirm a password" required></input><br />
+
+
+         <input class="remember" type="checkbox" name="answer" value="0" required>
+         <div class="remember">
+            I accept all terms and conditions
+         </div>
+         <br /><br />
+         <button class="btn" type="submit"> Register</button>
+      </form>
+      <div class="remember">
+         already a member</div> <a class="question" href="/"> Login now</a>
+   </div>
+</body>
+
+</html>

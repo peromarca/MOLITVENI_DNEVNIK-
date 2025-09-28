@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Login</title>
+   <link rel="stylesheet" href="/style.css" />
+</head>
+
+<body>
+   <div class="basket">
+      <h1>Login</h1>
+      <form action="/login" method="POST">
+         <input class="user" type="text" name="email" placeholder="Enter your email" required /><br /><br />
+         <input class="user" type="text" name="pass" placeholder="Enter your password" required></input><br />
+         <input class="remember" type="checkbox" name="answer" value="0">
+         <div class="remember">
+            remember me
+         </div>
+         </input><a class="question" href="2e3">Forgot
+            password</a>
+         <br /><br />
+         <button class="btn" type="submit">Login</button>
+      </form>
+      <div class="remember">
+         not a member?</div> <a class="question" href="/register"> Signup now</a>
+   </div>
+</body>
+
+</html>
