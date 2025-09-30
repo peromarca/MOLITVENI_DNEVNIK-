@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Dashboard - Molitveni Dnevnik</title>
+   <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+   <div class="dashboard-container">
+      <header class="dashboard-header">
+         <h1>Dobrodošli, <%= user.username %>!</h1>
+         <nav>
+            <a href="/logout" class="logout-btn">Odjavi se</a>
+         </nav>
+      </header>
+
+      <main class="dashboard-content">
+         <div class="welcome-section">
+            <h2>Vaš Molitveni Dnevnik</h2>
+            <p>Ovde možete voditi evidenciju svojih molitava i duhovnih aktivnosti.</p>
+         </div>
+
+         <div class="user-info">
+            <h3>Informacije o nalogu:</h3>
+            <p><strong>Korisničko ime:</strong>
+               <%= user.username %>
+            </p>
+            <p><strong>ID:</strong>
+               <%= user.idnum %>
+            </p>
+            <p><strong>Datum registracije:</strong>
+               <%= user.created_at || 'N/A' %>
+            </p>
+         </div>
+
+         <div class="quick-actions">
+            <h3>Brze akcije:</h3>
+            <button class="action-btn">Dodaj novu molitvu</button>
+            <button class="action-btn">Pregledaj istoriju</button>
+            <button class="action-btn">Postavke</button>
+         </div>
+      </main>
+   </div>
+</body>
+
+</html>

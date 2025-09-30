@@ -2,6 +2,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const session = require("express-session");
+require('dotenv').config();
+
+// Uvozimo database konekciju
+const db = require('./database');
 
 const LoginRoutes = require('./routes/login.routes');
 const RegisterRoutes = require('./routes/register.routes');
