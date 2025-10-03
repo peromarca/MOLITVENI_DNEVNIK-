@@ -1,42 +1,28 @@
 <!DOCTYPE html>
-<html lang="sr">
+<html>
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Prijava - Molitveni Dnevnik</title>
-   <link rel="stylesheet" href="/style.css">
+   <title>Login</title>
+   <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
-   <div class="login-container">
-      <div class="login-form">
-         <h2>Prijava</h2>
-
-         <% if (typeof error !=='undefined' ) { %>
-            <div class="error-message">
-               <%= error %>
-            </div>
-            <% } %>
-
-               <form action="/login" method="POST">
-                  <div class="form-group">
-                     <label for="username">Korisničko ime:</label>
-                     <input type="text" id="username" name="username" required>
-                  </div>
-
-                  <div class="form-group">
-                     <label for="password">Lozinka:</label>
-                     <input type="password" id="password" name="password" required>
-                  </div>
-
-                  <button type="submit" class="login-btn">Prijaviť se</button>
-               </form>
-
-               <div class="register-link">
-                  <p>Nemate nalog? <a href="/register">Registrujte se ovde</a></p>
-               </div>
-      </div>
+   <div class="basket">
+      <h1>Login</h1>
+      <form action="/login" method="POST">
+         <input class="user" type="text" name="email" placeholder="Enter your email" required /><br /><br />
+         <input class="user" type="text" name="pass" placeholder="Enter your password" required></input><br />
+         <input class="remember" type="checkbox" name="answer" value="0">
+         <div class="remember">
+            remember me
+         </div>
+         </input><a class="question" href="2e3">Forgot
+            password</a>
+         <br /><br />
+         <button class="btn" type="submit">Login</button>
+      </form>
+      <div class="remember">
+         not a member?</div> <a class="question" href="/register"> Signup now</a>
    </div>
 </body>
 

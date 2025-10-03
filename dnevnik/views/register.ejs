@@ -1,53 +1,30 @@
 <!DOCTYPE html>
-<html lang="sr">
+<html>
 
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Registracija - Molitveni Dnevnik</title>
-   <link rel="stylesheet" href="/style.css">
+   <title>Login</title>
+   <link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
-   <div class="login-container">
-      <div class="login-form">
-         <h2>Registracija</h2>
+   <div class="basket">
+      <h1>Register</h1>
+      <form action="/register" method="POST">
+         <input class="user" type="text" name="ime" placeholder="Enter your name" required /><br /><br />
+         <input class="user" type="text" name="email" placeholder="Enter your email" required /><br /><br />
+         <input class="user" type="text" name="pass" placeholder="Create a password" required /><br /><br />
+         <input class="user" type="text" name="pass2" placeholder="Confirm a password" required></input><br />
 
-         <% if (typeof error !=='undefined' ) { %>
-            <div class="error-message">
-               <%= error %>
-            </div>
-            <% } %>
 
-               <% if (typeof success !=='undefined' ) { %>
-                  <div class="success-message">
-                     <%= success %>
-                  </div>
-                  <% } %>
-
-                     <form action="/register" method="POST">
-                        <div class="form-group">
-                           <label for="username">Korisničko ime:</label>
-                           <input type="text" id="username" name="username" required>
-                        </div>
-
-                        <div class="form-group">
-                           <label for="password">Lozinka:</label>
-                           <input type="password" id="password" name="password" required>
-                        </div>
-
-                        <div class="form-group">
-                           <label for="confirmPassword">Potvrdite lozinku:</label>
-                           <input type="password" id="confirmPassword" name="confirmPassword" required>
-                        </div>
-
-                        <button type="submit" class="login-btn">Registruj se</button>
-                     </form>
-
-                     <div class="register-link">
-                        <p>Već imate nalog? <a href="/login">Prijavite se ovde</a></p>
-                     </div>
-      </div>
+         <input class="remember" type="checkbox" name="answer" value="0" required>
+         <div class="remember">
+            I accept all terms and conditions
+         </div>
+         <br /><br />
+         <button class="btn" type="submit"> Register</button>
+      </form>
+      <div class="remember">
+         already a member</div> <a class="question" href="/"> Login now</a>
    </div>
 </body>
 
