@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Client } = require('pg');
-
+const bcrypt = require('bcrypt');
 // Database konekcija
 const con = new Client({
    host: "localhost",
@@ -30,11 +30,12 @@ router.get('/ispisiKorisnike', (req, res) => {
 });
 
 
-router.post('/dodajKorisnika', (req, res) => {
+router.post('/dodajKorisnika', async (req, res) => {
 
-   const { username, pass, idnum } = req.body;
-   const insert_query = 'INSERT INTO DnevnikUser (username, pass, idnum) VALUES ($1, $2, $3)';
-   con.query(insert_query, [username, pass, idnum], (err, result) => {
+   const { username, pass, idnum, email } = req.body;
+   const hashpass = await bcrypt.hash(pass, 10);
+   const insert_query = 'INSERT INTO DnevnikUser (username, hashpass, idnum, email) VALUES ($1, $2, $3, $4)';
+   con.query(insert_query, [username, hashpass, idnum, email], (err, result) => {
       if (err) {
          console.log("Greska prilikom dodavanja korisnika: " + err);
          res.status(500).send("Greska prilikom dodavanja korisnika");
@@ -59,21 +60,37 @@ router.get('/fetchId/:id', (req, res) => {
 
    });
 });
-router.put('/updateUser/:id', (req, res) => {
-   const id = req.params.id;
-   const username = req.body.username;
-   const pass = req.body.pass;
+router.put('/updateUser/:id', async (req, res) => {
+   try {
+      const id = req.params.id;
+      const username = req.body.username;
+      const pass = req.body.pass;
 
-   const update_query = 'UPDATE DnevnikUser SET username=$1 WHERE idnum=$2';
-   con.query(update_query, [username, id], (err, result) => {
-      if (err) {
-         console.log("Greska prilikom azuriranja korisnika: " + err);
-         res.status(500).send("Greska prilikom azuriranja korisnika");
+      let update_query, params;
+
+      if (pass) {
+         // Ako se menja i lozinka - hash je
+         const hashpass = await bcrypt.hash(pass, 10);
+         update_query = 'UPDATE DnevnikUser SET username=$1, hashpass=$2 WHERE idnum=$3';
+         params = [username, hashpass, id];
       } else {
-         console.log("Korisnik uspesno azuriran");
-         res.status(200).send("Korisnik uspesno azuriran");
+         // Ako se menja samo username
+         update_query = 'UPDATE DnevnikUser SET username=$1 WHERE idnum=$2';
+         params = [username, id];
       }
-   });
+
+      con.query(update_query, params, (err, result) => {
+         if (err) {
+            console.log("Greska prilikom azuriranja korisnika: " + err);
+            res.status(500).send("Greska prilikom azuriranja korisnika");
+         } else {
+            console.log("Korisnik uspesno azuriran");
+            res.status(200).send("Korisnik uspesno azuriran");
+         }
+      });
+   } catch (error) {
+      res.status(500).send("Greska pri hashovanju lozinke");
+   }
 });
 router.delete('/deleteUser/:id', (req, res) => {
    const id = req.params.id;
@@ -99,6 +116,72 @@ router.delete('/deleteAllUsers', (req, res) => {
          res.status(200).send("Svi korisnici uspesno obrisani");
       }
    });
+});
+
+// Dodajte novu rutu za registraciju
+router.post('/register', async (req, res) => {
+   try {
+      const { ime, email, pass, pass2 } = req.body;
+
+      // Validacija podataka
+      if (!ime || !email || !pass || !pass2) {
+         return res.render('register', { error: "Sva polja su obavezna", ime: ime || '', email: email || '' });
+      }
+
+      if (pass !== pass2) {
+         return res.render('register', { error: "Lozinke se ne poklapaju", ime: ime || '', email: email || '' });
+      }
+
+      if (pass.length < 6) {
+         return res.render('register', { error: "Lozinka mora imati najmanje 6 karaktera", ime: ime || '', email: email || '' });
+      }
+
+      // Proveri da li korisnik već postoji
+      const check_query = 'SELECT * FROM DnevnikUser WHERE email = $1 OR username = $2';
+      con.query(check_query, [email, ime], async (err, result) => {
+         if (err) {
+            console.log("Greška prilikom provere korisnika: " + err);
+            return res.render('register', { error: "Greška prilikom provere korisnika", ime: ime || '', email: email || '' });
+         }
+
+         if (result.rows.length > 0) {
+            return res.render('register', { error: "Korisnik sa tim email-om već postoji", ime: ime || '', email: email || '' });
+         }
+
+         // Ako korisnik ne postoji, pronađi maksimalni idnum
+         const max_query = 'SELECT MAX(idnum) as max_id FROM DnevnikUser';
+         con.query(max_query, async (err, maxResult) => {
+            if (err) {
+               console.log("Greška prilikom pronalaska max idnum: " + err);
+               return res.render('register', { error: "Greška prilikom generisanja ID-a", ime: ime || '', email: email || '' });
+            }
+
+            // Ako nema korisnika u bazi, počni od 1, inače max + 1
+            const maxId = maxResult.rows[0].max_id;
+            const newIdnum = maxId ? maxId + 1 : 1;
+
+            // Dodaj korisnika sa novim idnum
+            const hashpass = await bcrypt.hash(pass, 10);
+            const insert_query = 'INSERT INTO DnevnikUser (username, hashpass, idnum,email ) VALUES ($1, $2, $3, $4)';
+
+            con.query(insert_query, [ime, hashpass, newIdnum, email], (err, result) => {
+               if (err) {
+                  console.log("Greška prilikom registracije korisnika: " + err);
+                  return res.render('register', { error: "Greška prilikom registracije", ime: ime || '', email: email || '' });
+               } else {
+                  console.log("Korisnik uspešno registrovan sa idnum: " + newIdnum);
+
+                  // ✅ PREBACI NA LOGIN PAGE
+                  return res.redirect('/login?success=registered');
+               }
+            });
+         });
+      });
+
+   } catch (error) {
+      console.log("Greška pri registraciji: " + error);
+      return res.render('register', { error: "Serverska greška", ime: '', email: '' });
+   }
 });
 
 

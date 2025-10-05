@@ -1,0 +1,226 @@
+/* Reset i osnovni stilovi */
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+}
+
+body {
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   min-height: 100vh;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 10px;
+   margin: 0;
+}
+
+/* Register Container */
+.basket {
+   background: white;
+   padding: 2.5rem 2rem;
+   border-radius: 20px;
+   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+   width: 100%;
+   max-width: 450px;
+   margin: 0 auto;
+   position: relative;
+   overflow: hidden;
+   max-height: 95vh;
+   overflow-y: auto;
+}
+
+.basket::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   height: 4px;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.basket h1 {
+   text-align: center;
+   margin-bottom: 1.5rem;
+   color: #333;
+   font-weight: 700;
+   font-size: 1.8rem;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   -webkit-background-clip: text;
+   -webkit-text-fill-color: transparent;
+   background-clip: text;
+}
+
+/* Input Fields */
+.user {
+   width: 100%;
+   padding: 0.9rem 1rem;
+   border: 2px solid #e1e5e9;
+   border-radius: 12px;
+   font-size: 1rem;
+   transition: all 0.3s ease;
+   background: #fafbfc;
+   margin-bottom: 1rem;
+}
+
+.user:focus {
+   outline: none;
+   border-color: #667eea;
+   background: white;
+   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+   transform: translateY(-2px);
+}
+
+.user::placeholder {
+   color: #a0a7b4;
+   font-weight: 400;
+}
+
+/* Register Button */
+.btn {
+   width: 100%;
+   padding: 1rem;
+   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+   color: white;
+   border: none;
+   border-radius: 12px;
+   font-size: 1.1rem;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   margin: 1rem 0;
+   letter-spacing: 0.5px;
+   text-transform: uppercase;
+}
+
+.btn:hover {
+   transform: translateY(-3px);
+   box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+   background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.btn:active {
+   transform: translateY(-1px);
+   box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Terms & Conditions, Links */
+.remember {
+   color: #666;
+   font-size: 0.95rem;
+   margin: 1rem 0;
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+}
+
+.remember input[type="checkbox"] {
+   width: 18px;
+   height: 18px;
+   accent-color: #667eea;
+   cursor: pointer;
+}
+
+.question {
+   color: #667eea;
+   text-decoration: none;
+   font-weight: 600;
+   font-size: 1rem;
+   transition: all 0.3s ease;
+}
+
+.question:hover {
+   color: #764ba2;
+   text-decoration: underline;
+}
+
+/* Password Container */
+.password-container {
+   position: relative;
+   display: block;
+   width: 100%;
+   margin-bottom: 1rem;
+}
+
+.password-toggle {
+   position: absolute;
+   right: 15px;
+   top: 50%;
+   transform: translateY(-50%);
+   cursor: pointer;
+   font-size: 20px;
+   color: #a0a7b4;
+   user-select: none;
+   transition: all 0.3s ease;
+   z-index: 10;
+}
+
+.password-toggle:hover {
+   color: #667eea;
+   transform: translateY(-50%) scale(1.1);
+}
+
+/* Error Message */
+.error-display {
+   background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+   color: white;
+   padding: 0.8rem;
+   border-radius: 12px;
+   margin-bottom: 1rem;
+   text-align: center;
+   font-weight: 500;
+   box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+   body {
+      padding: 5px;
+   }
+
+   .basket {
+      padding: 2rem 1.5rem;
+      max-width: 100%;
+      margin: 0;
+      border-radius: 15px;
+      max-height: 98vh;
+   }
+
+   .basket h1 {
+      font-size: 1.6rem;
+      margin-bottom: 1.2rem;
+   }
+
+   .user {
+      padding: 1rem;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+   }
+
+   .btn {
+      padding: 1.1rem;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+   }
+
+   .password-toggle {
+      font-size: 22px;
+      right: 12px;
+   }
+
+   .remember {
+      font-size: 1rem;
+      margin: 0.8rem 0;
+   }
+
+   .question {
+      font-size: 1.1rem;
+   }
+
+   .error-display {
+      padding: 0.9rem;
+      font-size: 1rem;
+   }
+}

@@ -3,27 +3,61 @@
 
 <head>
    <title>Login</title>
-   <link rel="stylesheet" href="/style.css" />
+   <link rel="stylesheet" href="/login.css" />
 </head>
 
 <body>
    <div class="basket">
       <h1>Login</h1>
-      <form action="/login" method="POST">
-         <input class="user" type="text" name="email" placeholder="Enter your email" required /><br /><br />
-         <input class="user" type="text" name="pass" placeholder="Enter your password" required></input><br />
-         <input class="remember" type="checkbox" name="answer" value="0">
-         <div class="remember">
-            remember me
+
+      <% if (typeof error !=='undefined' ) { %>
+         <div class="error-display">
+            <%= error %>
          </div>
-         </input><a class="question" href="2e3">Forgot
-            password</a>
-         <br /><br />
-         <button class="btn" type="submit">Login</button>
-      </form>
-      <div class="remember">
-         not a member?</div> <a class="question" href="/register"> Signup now</a>
+         <% } %>
+            <% if (typeof success !=='undefined' && success==='registered' ) { %>
+               <div class="success-message">Uspešno ste registrovani! Možete se prijaviti.</div>
+               <% } %>
+
+                  <form action="/login" method="POST">
+                     <input class="user" type="email" name="email" placeholder="Enter your email"
+                        value="<%= typeof email !== 'undefined' ? email : '' %>" required />
+
+                     <div class="password-container">
+                        <input class="user" type="password" id="loginPass" name="pass" placeholder="Enter your password"
+                           required />
+                        <span class="password-toggle" onclick="togglePassword('loginPass', this)">👁️</span>
+                     </div>
+
+                     <div class="remember">
+                        <input type="checkbox" name="remember" value="1" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                     </div>
+
+                     <button class="btn" type="submit">Login</button>
+                  </form>
+
+                  <div class="remember">
+                     Not a member? <a class="question" href="/register">Sign up now</a>
+                  </div>
+                  <div class="remember">
+                     <a class="question" href="/forgot-password">Forgot password?</a>
+                  </div>
    </div>
+
+   <script>
+      function togglePassword(inputId, eyeIcon) {
+         const passwordInput = document.getElementById(inputId);
+
+         if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.textContent = '🙈';
+         } else {
+            passwordInput.type = 'password';
+            eyeIcon.textContent = '👁️';
+         }
+      }
+   </script>
 </body>
 
 </html>

@@ -7,7 +7,8 @@ router.get('/', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-   res.render('login');
+   const success = req.query.success;
+   res.render('login', { success });
 });
 
 router.post('/login', (req, res) => {
