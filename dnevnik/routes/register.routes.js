@@ -11,7 +11,7 @@ function redirectIfLoggedIn(req, res, next) {
 }
 
 router.get('/register', redirectIfLoggedIn, (req, res) => {
-   res.render('register');
+   res.render('register', { user: null });
 });
 
 

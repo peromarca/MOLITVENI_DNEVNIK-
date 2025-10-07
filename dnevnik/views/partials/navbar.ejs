@@ -1,0 +1,24 @@
+<nav class="navbar">
+   <div class="navbar-content">
+      <div class="navbar-left">
+         <a href="/" class="navbar-home">
+            <span class="home-icon">⛪︎</span>
+         </a>
+      </div>
+
+      <div class="navbar-center">
+         <h1 class="navbar-title">Molitveni Dnevnik</h1>
+      </div>
+
+      <div class="navbar-right">
+         <% if (typeof user !=='undefined' && user) { %>
+            <span class="user-info">👤 <%= user.username %></span>
+            <form action="/logout" method="POST">
+               <button class="logout-btn" type="submit">Odjava</button>
+               <% } else { %>
+                  <a href="/login" class="login-link">Prijava</a>
+                  <a href="/register" class="register-link">Registracija</a>
+                  <% } %>
+      </div>
+   </div>
+</nav>

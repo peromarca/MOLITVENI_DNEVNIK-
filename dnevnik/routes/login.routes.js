@@ -20,12 +20,17 @@ function redirectIfLoggedIn(req, res, next) {
 }
 
 router.get('/', (req, res) => {
-   res.redirect('/login');
+   // Ako je korisnik ulogovan, vodi na dashboard, inače na index
+   if (req.session && req.session.user) {
+      res.redirect('/dashboard');
+   } else {
+      res.render('index', { user: null });
+   }
 });
 
 router.get('/login', redirectIfLoggedIn, (req, res) => {
    const success = req.query.success;
-   res.render('login', { success });
+   res.render('login', { success, user: null });
 });
 
 // Dashboard ruta - dostupna samo ulogovanim korisnicima

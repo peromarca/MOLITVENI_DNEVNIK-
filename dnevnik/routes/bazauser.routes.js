@@ -125,15 +125,15 @@ router.post('/register', async (req, res) => {
 
       // Validacija podataka
       if (!ime || !email || !pass || !pass2) {
-         return res.render('register', { error: "Sva polja su obavezna", ime: ime || '', email: email || '' });
+         return res.render('register', { error: "Sva polja su obavezna", ime: ime || '', email: email || '', user: null });
       }
 
       if (pass !== pass2) {
-         return res.render('register', { error: "Lozinke se ne poklapaju", ime: ime || '', email: email || '' });
+         return res.render('register', { error: "Lozinke se ne poklapaju", ime: ime || '', email: email || '', user: null });
       }
 
       if (pass.length < 6) {
-         return res.render('register', { error: "Lozinka mora imati najmanje 6 karaktera", ime: ime || '', email: email || '' });
+         return res.render('register', { error: "Lozinka mora imati najmanje 6 karaktera", ime: ime || '', email: email || '', user: null });
       }
 
       // Proveri da li korisnik već postoji
@@ -141,11 +141,11 @@ router.post('/register', async (req, res) => {
       con.query(check_query, [email, ime], async (err, result) => {
          if (err) {
             console.log("Greška prilikom provere korisnika: " + err);
-            return res.render('register', { error: "Greška prilikom provere korisnika", ime: ime || '', email: email || '' });
+            return res.render('register', { error: "Greška prilikom provere korisnika", ime: ime || '', email: email || '', user: null });
          }
 
          if (result.rows.length > 0) {
-            return res.render('register', { error: "Korisnik sa tim email-om već postoji", ime: ime || '', email: email || '' });
+            return res.render('register', { error: "Korisnik sa tim email-om već postoji", ime: ime || '', email: email || '', user: null });
          }
 
          // Ako korisnik ne postoji, pronađi maksimalni idnum
@@ -153,7 +153,7 @@ router.post('/register', async (req, res) => {
          con.query(max_query, async (err, maxResult) => {
             if (err) {
                console.log("Greška prilikom pronalaska max idnum: " + err);
-               return res.render('register', { error: "Greška prilikom generisanja ID-a", ime: ime || '', email: email || '' });
+               return res.render('register', { error: "Greška prilikom generisanja ID-a", ime: ime || '', email: email || '', user: null });
             }
 
             // Ako nema korisnika u bazi, počni od 1, inače max + 1
@@ -167,7 +167,7 @@ router.post('/register', async (req, res) => {
             con.query(insert_query, [ime, hashpass, newIdnum, email], (err, result) => {
                if (err) {
                   console.log("Greška prilikom registracije korisnika: " + err);
-                  return res.render('register', { error: "Greška prilikom registracije", ime: ime || '', email: email || '' });
+                  return res.render('register', { error: "Greška prilikom registracije", ime: ime || '', email: email || '', user: null });
                } else {
                   console.log("Korisnik uspešno registrovan sa idnum: " + newIdnum);
 
@@ -180,7 +180,7 @@ router.post('/register', async (req, res) => {
 
    } catch (error) {
       console.log("Greška pri registraciji: " + error);
-      return res.render('register', { error: "Serverska greška", ime: '', email: '' });
+      return res.render('register', { error: "Serverska greška", ime: '', email: '', user: null });
    }
 });
 
@@ -201,14 +201,14 @@ router.post('/login', (req, res) => {
       }
 
       if (result.rows.length === 0) {
-         return res.render('login', { error: "Korisnik sa tim email-om ne postoji", pass: pass || '', email: email || '' });
+         return res.render('login', { error: "Korisnik sa tim email-om ne postoji", pass: pass || '', email: email || '', user: null });
       }
       if (await bcrypt.compare(pass, result.rows[0].hashpass)) {
          req.session.user = { id: result.rows[0].idnum, username: result.rows[0].username, email: result.rows[0].email };
          return res.redirect('/dashboard');
       }
       else {
-         return res.render('login', { error: "Pogrešna lozinka", pass: pass || '', email: email || '' });
+         return res.render('login', { error: "Pogrešna lozinka", pass: pass || '', email: email || '', user: null });
       }
    });
 

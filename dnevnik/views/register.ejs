@@ -1,65 +1,65 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-   <title>Register</title>
-   <link rel="stylesheet" href="/register.css" />
-</head>
+<%- include('partials/head', {title: 'Register' , cssFile: 'register.css' }) %>
 
-<body>
-   <div class="basket">
-      <h1>Register</h1>
+   <body>
+      <%- include('partials/navbar', {user: null}) %>
 
-      <% if (typeof error !=='undefined' ) { %>
-         <div class="error-display">
-            <%= error %>
+         <div class="basket">
+            <h1>Register</h1>
+
+            <% if (typeof error !=='undefined' ) { %>
+               <div class="error-display">
+                  <%= error %>
+               </div>
+               <% } %>
+
+                  <form action="/register" method="POST" id="registerForm">
+                     <input class="user" type="text" name="ime" placeholder="Enter your name"
+                        value="<%= typeof ime !== 'undefined' ? ime : '' %>" required />
+                     <input class="user" type="email" name="email" placeholder="Enter your email"
+                        value="<%= typeof email !== 'undefined' ? email : '' %>" required />
+
+                     <div class="password-container">
+                        <input class="user" type="password" id="pass" name="pass" placeholder="Create a password"
+                           required />
+                        <span class="password-toggle" onclick="togglePassword('pass', this)">👁️</span>
+                     </div>
+
+                     <div class="password-container">
+                        <input class="user" type="password" id="pass2" name="pass2" placeholder="Confirm a password"
+                           required />
+                        <span class="password-toggle" onclick="togglePassword('pass2', this)">👁️</span>
+                     </div>
+
+                     <div class="remember">
+                        <input type="checkbox" name="answer" value="0" id="termsCheckbox" required>
+                        <label for="termsCheckbox">I accept all terms and conditions</label>
+                     </div>
+
+                     <button class="btn" type="submit">Register</button>
+                  </form>
+
+                  <div class="remember">
+                     Already a member? <a class="question" href="/login">Login now</a>
+                  </div>
          </div>
-         <% } %>
 
-            <form action="/register" method="POST" id="registerForm">
-               <input class="user" type="text" name="ime" placeholder="Enter your name"
-                  value="<%= typeof ime !== 'undefined' ? ime : '' %>" required />
-               <input class="user" type="email" name="email" placeholder="Enter your email"
-                  value="<%= typeof email !== 'undefined' ? email : '' %>" required />
+         <script>
+            function togglePassword(inputId, eyeIcon) {
+               const passwordInput = document.getElementById(inputId);
 
-               <div class="password-container">
-                  <input class="user" type="password" id="pass" name="pass" placeholder="Create a password" required />
-                  <span class="password-toggle" onclick="togglePassword('pass', this)">👁️</span>
-               </div>
+               if (passwordInput.type === 'password') {
+                  passwordInput.type = 'text';
+                  eyeIcon.textContent = '🙈'; // Zatvoreno oko
+               } else {
+                  passwordInput.type = 'password';
+                  eyeIcon.textContent = '👁️'; // Otvoreno oko
+               }
+            }
+         </script>
 
-               <div class="password-container">
-                  <input class="user" type="password" id="pass2" name="pass2" placeholder="Confirm a password"
-                     required />
-                  <span class="password-toggle" onclick="togglePassword('pass2', this)">👁️</span>
-               </div>
-
-               <div class="remember">
-                  <input type="checkbox" name="answer" value="0" id="termsCheckbox" required>
-                  <label for="termsCheckbox">I accept all terms and conditions</label>
-               </div>
-
-               <button class="btn" type="submit">Register</button>
-            </form>
-
-            <div class="remember">
-               Already a member? <a class="question" href="/login">Login now</a>
-            </div>
-   </div>
-
-   <script>
-      function togglePassword(inputId, eyeIcon) {
-         const passwordInput = document.getElementById(inputId);
-
-         if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeIcon.textContent = '🙈'; // Zatvoreno oko
-         } else {
-            passwordInput.type = 'password';
-            eyeIcon.textContent = '👁️'; // Otvoreno oko
-         }
-      }
-   </script>
-
-</body>
+   </body>
 
 </html>

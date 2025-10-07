@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<%- include('partials/head', {title: 'Dashboard - Molitveni Dnevnik' , cssFile: 'style.css' }) %>
+
+   <body>
+      <%- include('partials/navbar', {user: user}) %>
+
+         <div class="dashboard-container">
+            <div class="welcome-section">
+               <h1>Dobrodošli <%= user.ime %>!</h1>
+               <p>Vaš molitveni dnevnik vas čeka.</p>
+            </div>
+
+            <div class="dashboard-content">
+               <div class="card">
+                  <h3>📖 Moji Zapisi</h3>
+                  <p>Pregledajte svoje molitvene zapise</p>
+                  <button class="btn">Otvori Dnevnik</button>
+               </div>
+
+               <div class="card">
+                  <h3>✍️ Novi Zapis</h3>
+                  <p>Dodajte novi molitveni zapis</p>
+                  <button class="btn">Kreiraj Zapis</button>
+               </div>
+
+               <div class="card">
+                  <h3>⚙️ Postavke</h3>
+                  <p>Uredite svoj profil i postavke</p>
+                  <button class="btn">Postavke</button>
+               </div>
+
+               <div class="card logout-card">
+                  <h3>🚪 Odjavite se</h3>
+                  <p>Sigurno se odjavite sa sistema</p>
+                  <form action="/logout" method="POST" style="margin: 0;">
+                     <button class="btn btn-logout" type="submit">Odjavi se</button>
+                  </form>
+               </div>
+            </div>
+         </div>
+
+   </body>
+
+</html>

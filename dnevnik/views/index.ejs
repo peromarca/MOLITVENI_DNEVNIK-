@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<%- include('partials/head', {title: 'Molitveni Dnevnik' , cssFile: 'style.css' }) %>
+
+   <body>
+      <%- include('partials/navbar', {user: null}) %>
+
+         <div class="dashboard-container">
+            <div class="welcome-section">
+               <h1>Dobrodošli u Molitveni Dnevnik</h1>
+               <p>Vaše digitalno mesto za molitvu i refleksiju.</p>
+            </div>
+
+            <div class="dashboard-content">
+               <div class="card">
+                  <h3>🔐 Prijavite se</h3>
+                  <p>Već imate račun? Prijavite se ovde.</p>
+                  <a href="/login" class="btn">Prijavi se</a>
+               </div>
+
+               <div class="card">
+                  <h3>📝 Registrujte se</h3>
+                  <p>Novi ste? Kreirajte svoj račun.</p>
+                  <a href="/register" class="btn">Registruj se</a>
+               </div>
+
+               <div class="card">
+                  <h3>📖 O nama</h3>
+                  <p>Saznajte više o našoj misiji.</p>
+                  <button class="btn">Više informacija</button>
+               </div>
+            </div>
+         </div>
+
+   </body>
+
+</html>
