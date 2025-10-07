@@ -184,6 +184,36 @@ router.post('/register', async (req, res) => {
    }
 });
 
+router.post('/login', (req, res) => {
+   const { email, pass } = req.body;
+   if (!email || !pass) {
+      return res.status(400).send('All fields are required');
+   }
+   if (!email.includes('@') || !email.includes('.')) {
+      return res.status(400).send('Invalid email format');
+   }
+
+   const check_query = 'SELECT * FROM DnevnikUser WHERE email = $1';
+   con.query(check_query, [email], async (err, result) => {
+      if (err) {
+         console.log("Greška prilikom provere korisnika: " + err);
+         return res.status(500).send('Server error');
+      }
+
+      if (result.rows.length === 0) {
+         return res.render('login', { error: "Korisnik sa tim email-om ne postoji", pass: pass || '', email: email || '' });
+      }
+      if (await bcrypt.compare(pass, result.rows[0].hashpass)) {
+         req.session.user = { id: result.rows[0].idnum, username: result.rows[0].username, email: result.rows[0].email };
+         return res.redirect('/dashboard');
+      }
+      else {
+         return res.render('login', { error: "Pogrešna lozinka", pass: pass || '', email: email || '' });
+      }
+   });
+
+
+});
 
 
 

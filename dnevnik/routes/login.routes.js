@@ -1,32 +1,48 @@
 const express = require('express');
 const router = express.Router();
 
+// Middleware funkcija za proveru da li je korisnik ulogovan
+function requireAuth(req, res, next) {
+   if (req.session && req.session.user) {
+      return next(); // Korisnik je ulogovan, nastavi
+   } else {
+      return res.redirect('/login'); // Nije ulogovan, vrati na login
+   }
+}
+
+// Middleware funkcija za proveru da li je korisnik već ulogovan (za login/register stranice)
+function redirectIfLoggedIn(req, res, next) {
+   if (req.session && req.session.user) {
+      return res.redirect('/dashboard'); // Već ulogovan, vodi na dashboard
+   } else {
+      return next(); // Nije ulogovan, prikaži login/register
+   }
+}
+
 router.get('/', (req, res) => {
    res.redirect('/login');
-
 });
 
-router.get('/login', (req, res) => {
+router.get('/login', redirectIfLoggedIn, (req, res) => {
    const success = req.query.success;
    res.render('login', { success });
 });
 
-router.post('/login', (req, res) => {
-   const { email, pass } = req.body;
-   if (!email || !pass) {
-      return res.status(400).send('All fields are required');
-   }
-   if (!email.includes('@') || !email.includes('.')) {
-      return res.status(400).send('Invalid email format');
-   }
-   if (!req.session.users || !req.session.users[email]) {
-      return res.status(400).send('User does not exist');
-   }
-   if (req.session.users[email].pass !== pass) {
-      return res.status(400).send('Incorrect password');
-   }
-   if (req.session.users[email].pass = pass) {
-      return res.status(200).send('Login successful');
-   }
+// Dashboard ruta - dostupna samo ulogovanim korisnicima
+router.get('/dashboard', requireAuth, (req, res) => {
+   const user = req.session.user;
+   res.render('userinterface', { user });
 });
+
+// Logout ruta
+router.post('/logout', (req, res) => {
+   req.session.destroy((err) => {
+      if (err) {
+         return res.status(500).send('Could not log out');
+      }
+      res.redirect('/login');
+   });
+});
+
+
 module.exports = router;
