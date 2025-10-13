@@ -33,7 +33,6 @@ router.get('/login', redirectIfLoggedIn, (req, res) => {
    res.render('login', { success, user: null });
 });
 
-// Dashboard ruta - dostupna samo ulogovanim korisnicima
 router.get('/dashboard', requireAuth, (req, res) => {
    const user = req.session.user;
    res.render('userinterface', { user });
