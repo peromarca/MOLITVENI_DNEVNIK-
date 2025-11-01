@@ -1,4 +1,9 @@
 {
+  "name": "dnevnik",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "nodemon main.js"
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "ejs": "^3.1.10",
