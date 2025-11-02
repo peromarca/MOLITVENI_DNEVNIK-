@@ -6,6 +6,19 @@ app.use(express.json())
 const path = require('path');
 const session = require("express-session");
 
+
+
+const cors = require('cors');
+
+// Dodaj CORS za React
+app.use(cors({
+   origin: 'http://localhost:3000', // React dev server
+   credentials: true
+}));
+
+
+
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({
@@ -33,7 +46,7 @@ app.use('/', RegisterRoutes);
 
 
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
    console.log(`Server je pokrenut na portu ${PORT}`);
 });
